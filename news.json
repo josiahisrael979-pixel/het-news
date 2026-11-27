@@ -1,8 +1,14 @@
 [
   {
     "id": "1",
-    "title": "Welcome to Highly Exceptional Tutorial!",
+    "title": "Welcome to HET",
     "date": "November 27, 2026",
-    "content": "Study JAMB the smart way: notes, practice questions, and a full JAMB simulator in one app. We are thrilled to have you on board. Start your journey to excellence today!"
+    "content": "Welcome to Highly Exceptional Tutorial. Stay tuned for updates, new questions and study tips."
+  },
+  {
+    "id": "2",
+    "title": "Instant notifications are live",
+    "date": "November 27, 2026",
+    "content": "You will now get HET news the moment we post it."
   }
 ]
