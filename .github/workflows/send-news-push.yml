@@ -1,0 +1,39 @@
+name: Send news push
+
+on:
+  push:
+    branches: [main]
+    paths: [news.json]
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send push to the news topic
+        env:
+          SA_JSON: ${{ secrets.FCM_SERVICE_ACCOUNT }}
+        run: |
+          pip install --quiet google-auth requests
+          python - <<'PY'
+          import os, json, requests
+          from google.oauth2 import service_account
+          from google.auth.transport.requests import Request
+
+          info = json.loads(os.environ["SA_JSON"])
+          creds = service_account.Credentials.from_service_account_info(
+              info, scopes=["https://www.googleapis.com/auth/firebase.messaging"])
+          creds.refresh(Request())
+
+          resp = requests.post(
+              "https://fcm.googleapis.com/v1/projects/het-app-eb6ae/messages:send",
+              headers={"Authorization": "Bearer " + creds.token},
+              json={"message": {
+                  "topic": "news",
+                  "data": {"type": "news"},
+                  "android": {"priority": "HIGH", "ttl": "3600s"}}},
+              timeout=30)
+          print(resp.status_code, resp.text)
+          resp.raise_for_status()
+          PY
+          
